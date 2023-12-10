@@ -1,11 +1,13 @@
 #include <iostream>
+#include <complex>
+using namespace std;
 
-
-float ** matMul(float ** x, float ** y, char * device);
-float ** strassenMatMul(float ** x, float ** y, char * device);
-float * FFT(float * x, int N, char * device);
-float * primeFFT(float * x, int N, char * device);
-float * conv1D(float * x, float * y, char * device);
-float * conv2D(float * x, float * y, char * device);
-float * xcorr1D(float * x, float * y, char * device);
-float * xcorr2D(float * x, float * y, char * device);
+complex<double> ** matMul(complex<double> ** x, complex<double> ** y, char * device);
+complex<double> * dotProduct(complex<double> * x, complex<double> * y, char * device);
+complex<double> ** strassenMatMul(complex<double> ** x, complex<double> ** y, char * device);
+complex<double> * FFT(complex<double> * x, int N, char * device);
+complex<double> * primeFFT(complex<double> * x, int N, char * device);
+complex<double> * conv1D(complex<double> * x, complex<double> * y, char * device);
+complex<double> * conv2D(complex<double> * x, complex<double> * y, char * device);
+complex<double> * xcorr1D(complex<double> * x, complex<double> * y, char * device);
+complex<double> * xcorr2D(complex<double> * x, complex<double> * y, char * device);
