@@ -2,6 +2,8 @@
 #include <cmath>
 #include <vector>
 #include <smmintrin.h>
+#include <immintrin.h>
+#include <emmintrin.h>
 
 using namespace std;
 
@@ -29,16 +31,24 @@ void print_mat(vector<vector<double>> mat, int M, int N) {
 
 double dot_product_avx_see(vector<double> v1, vector<double> v2) {
     int N = v1.size();
-    vector<double> res(N, 0);
+    // vector<double> res_t(N, 0);
+    long double res_t = 0;
 
-    __m128i v1_vec = _mm_stream_load_si128(v1);
-    __m128i v2_vec = _mm_stream_load_si128(v2);
+    for (int iter_n = 0; iter_n < N / 2; iter_n++) {
 
-    __m128 res_vec = _mm_add_epi16
+        __m128d v1_vec = _mm_set_pd(v1[2 * iter_n + 1], v1[2 * iter_n]);
+        __m128d v2_vec = _mm_set_pd(v2[2 * iter_n + 1], v2[2 * iter_n]);
 
-    res = _mm_extract_epi64(res_vec, N)
+        __m128d res_vec = _mm_dp_pd(v1_vec, v2_vec, 0x3F);
 
-    return res;    
+        double res[2];
+
+        _mm_store_pd(res, res_vec);
+
+        res_t = res_t + res[0]; // + res[1];
+    }
+
+    return res_t;    
 }
 
 double dot_product_vanilla(vector<double> v1, vector<double> v2) {
@@ -78,6 +88,7 @@ vector<vector<double>> mat_mul_vanilla(vector<vector<double>> mat1, vector<vecto
 
     for (int iter_r = 0; iter_r < numRows; iter_r++) {
         for (int iter_c = 0; iter_c < numCols; iter_c++) {
+            // dot_product_avx_see(mat1[iter_r], get_column(mat2, iter_c));
             res[iter_r][iter_c] = dot_product_vanilla(mat1[iter_r], get_column(mat2, iter_c));
         }
     }
@@ -120,5 +131,17 @@ vector<vector<double>> test_matrix_2() {
     mat[3][2] = -4;
     mat[3][3] = 7;
     
+    return mat;
+}
+
+vector<vector<double>> randn_mat(int M, int N) {
+    vector<vector<double>> mat(M, vector<double>(N, 0));    
+    
+    for (int iter_m = 0; iter_m < M; iter_m++) {
+        for (int iter_n = 0; iter_n < N; iter_n++) {
+            mat[iter_m][iter_n] = rand() / RAND_MAX;
+        }
+    }
+
     return mat;
 }

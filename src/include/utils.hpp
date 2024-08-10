@@ -11,3 +11,5 @@ void print_mat(vector<vector<double>> mat, int M, int N);
 vector<double> get_column(vector<vector<double>> mat, int col);
 vector<vector<double>> test_matrix_1();
 vector<vector<double>> test_matrix_2();
+vector<vector<double>> randn_mat(int M, int N);
+
