@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include <smmintrin.h>
+
 using namespace std;
 
 vector<vector<double>> eye(int N) {
@@ -23,6 +25,20 @@ void print_mat(vector<vector<double>> mat, int M, int N) {
     }
 
     return;
+}
+
+double dot_product_avx_see(vector<double> v1, vector<double> v2) {
+    int N = v1.size();
+    vector<double> res(N, 0);
+
+    __m128i v1_vec = _mm_stream_load_si128(v1);
+    __m128i v2_vec = _mm_stream_load_si128(v2);
+
+    __m128 res_vec = _mm_add_epi16
+
+    res = _mm_extract_epi64(res_vec, N)
+
+    return res;    
 }
 
 double dot_product_vanilla(vector<double> v1, vector<double> v2) {
