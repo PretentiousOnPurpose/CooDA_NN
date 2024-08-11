@@ -7,22 +7,25 @@ using namespace std::chrono;
 using namespace std;
 
 int main() {
-    srand(0);
 
-    vector<vector<double>> A1 = eye(8);
-    vector<vector<double>> A2 = eye(8);
+    int M = 512;
+    int N = M;
+
+    // double ** A1 = test_matrix_1();
+    // double ** A2 = test_matrix_2();
+
+    double ** A1 = randn_mat(M, N);
+    double ** A2 = randn_mat(M, N);
+
 
     auto start = high_resolution_clock::now();
-    vector<vector<double>> Res = mat_mul_vanilla(A1, A2);
+    double ** Res = mat_mul_vanilla(A1, A2, M, N, M, N);
     auto stop = high_resolution_clock::now();
 
-    print_mat(Res, 8, 8);
+    // print_mat(A1, M, N);
 
     auto duration = duration_cast<microseconds>(stop - start);
     cout << "Exec time: " << duration.count() << "us" << endl;
-
-    // print_mat(A1, 4, 4);
-    // print_mat(A2, 4, 4);
 
     return 0;
 }

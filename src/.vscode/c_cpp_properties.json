@@ -10,7 +10,7 @@
       "cppStandard": "${default}",
       "intelliSenseMode": "linux-gcc-x64",
       "compilerArgs": [
-        ""
+        "utils.cpp", "-mavx2", "-msse4.1"
       ]
     }
   ],
